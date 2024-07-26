@@ -30,7 +30,7 @@ def main():
 @app.route("/refine", methods=['post'])
 def refine():
 	# {data : {"input" : "text"}}
-	data = request.json['data']
+	data = json.loads(request.json['data'])
 
 	output = model.customize_prompt(data['input'], refine=True)
 	return output_format(output)
@@ -38,7 +38,7 @@ def refine():
 @app.route("/generate_prompt", methods=['post'])
 def generate_prompt():
 	# {data : {"input":"<question>", "type":"<list>", "format":"```1. <point 1>, 2. <point 2> ```" ...}}
-	data = request.json['data']
+	data = json.loads(request.json['data'])
 
 	output = model.customize_prompt(data, refine=False, generate=True)
 	return output_format(output)
@@ -46,7 +46,7 @@ def generate_prompt():
 @app.route("/transform", methods=['post'])
 def transform_prompt():
 	# {data : {"from_this" : <prompt>, "to_this" : <prompt>}}
-	data = request.json['data']
+	data = json.loads(request.json['data'])
 	from_this = data['from_this']
 	to_this = data['to_this']
 
@@ -56,7 +56,7 @@ def transform_prompt():
 @app.route("/result", methods=['post'])
 def result():
 	# {data : {"prompt" : "abc"}}
-	data = request.json['data']
+	data = json.loads(request.json['data'])
 	output = model.result(data['input'])
 	return output_format(output)
 
@@ -65,5 +65,5 @@ def get(collection:str):
 	output = mongo.get(collection)
 	return output_format(output)
 
-# if __name__ == '__main__':
-# 	app.run(debug=True, port=8000)
+if __name__ == '__main__':
+	app.run(debug=True, port=8000)
