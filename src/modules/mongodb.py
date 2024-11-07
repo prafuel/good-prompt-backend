@@ -3,9 +3,11 @@ import os
 
 import numpy as np
 
+from dotenv import load_dotenv
+load_dotenv()
+
 url = os.environ['MONGO_URL']
 db = os.environ['DB']
-
 
 class Mongo:
 	def __init__(self) -> None:
@@ -23,3 +25,8 @@ class Mongo:
 
 	def put(self, collection:str):
 		pass
+
+if __name__ == "__main__":
+	table = "prebuiltPrompts"
+	obj = Mongo()
+	print(obj.get(table))
